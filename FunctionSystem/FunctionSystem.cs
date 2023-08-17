@@ -11,6 +11,9 @@ namespace Anvil
 
         [SerializeReference]
         private List<T1> _functions;
+        
+        [SerializeReference]
+        private T1 _function;
 
         public T Process(T data)
         {

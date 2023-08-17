@@ -4,15 +4,15 @@ using UnityEngine.UI;
 
 namespace Anvil
 {
-    public class ApplyWishDirection : MonoBehaviour
+    public class ApplyDirection : MonoBehaviour
     {
         //public ReactiveProperty<Vector3> wishDirection  = new();
         public FunctionSystem<Vector3,IWishDirectionFunction> functionSystem  = new();
-        private void Start()
+
+        private void Update()
         {
-            // Observable
-            //     .EveryUpdate()
-            //     .Subscribe(_ => wishDirection.Value = functionSystem.Process(wishDirection.Value)).AddTo(this);
+            var direction = functionSystem.Process(Vector3.zero);
+            transform.position += direction;
         }
     }
     
@@ -43,38 +43,20 @@ namespace Anvil
     public struct ApplyMoveSpeed : IWishDirectionFunction
     {
         [SerializeField] private int moveSpeed;
-        
-        public Vector3 Process(Vector3 data)
-        {
-            return data * moveSpeed;
-        }
+        public Vector3 Process(Vector3 data) => data * moveSpeed;
     }
 
     [Serializable]
     public struct ApplyDeltaTime : IWishDirectionFunction
     {
-        public Vector3 Process(Vector3 data)
-        {
-            return data * Time.deltaTime;
-        }
+        [SerializeField] private float timeScale;
+        public Vector3 Process(Vector3 data) => data * (Time.deltaTime * timeScale);
     }
 
     [Serializable]
-    public struct ResetOnClick : IWishDirectionFunction
+    public struct SpeedBoost : IWishDirectionFunction
     {
-        [SerializeField] private Button button;
-        private bool _isClicked;
-
-        public void Start()
-        {
-            _isClicked = false;
-            var x = this;
-            //button.OnClickAsObservable().Subscribe(_ => x._isClicked = true);
-        }
-        
-        public Vector3 Process(Vector3 data)
-        {
-            return _isClicked ? Vector3.zero : data;
-        }
+        [SerializeField] private float boostSpeed;
+        public Vector3 Process(Vector3 data) => Input.GetKey(KeyCode.Space) ? data * boostSpeed : data;
     }
 }
