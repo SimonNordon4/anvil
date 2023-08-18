@@ -168,25 +168,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616d8d3fc014bf144a57bf52b39a4e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  functionSystem:
-    _functions:
-    - rid: 1698683200933199929
-    - rid: 1698683200933199930
-    _function:
-      rid: -2
+  wishDirectionSystem:
+    functions:
+    - rid: 1698683212736233472
+    - rid: 1698683212736233473
+    - rid: 1698683212736233476
+    - rid: 1698683212736233477
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 1698683200933199929
-      type: {class: ApplyDeltaTime, ns: Anvil, asm: Anvil}
-      data:
-        timeScale: 0
-    - rid: 1698683200933199930
+    - rid: 1698683212736233472
+      type: {class: ApplyWasd, ns: Anvil, asm: Anvil}
+    - rid: 1698683212736233473
       type: {class: ApplyMoveSpeed, ns: Anvil, asm: Anvil}
       data:
         moveSpeed: 0
+        moveSay: 
+    - rid: 1698683212736233476
+      type: {class: ApplyDeltaTime, ns: Anvil, asm: Anvil}
+      data:
+        timeScale: 0
+    - rid: 1698683212736233477
+      type: {class: SpeedBoost, ns: Anvil, asm: Anvil}
+      data:
+        boostSpeed: 0
 --- !u!1 &1630952254
 GameObject:
   m_ObjectHideFlags: 0

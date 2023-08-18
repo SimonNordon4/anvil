@@ -18,23 +18,29 @@ namespace Anvil
         private VisualElement _container;
         private VisualElement _parentContainer;
 
-        private VisualElement DrawHeader()
+
+        private VisualElement DrawFoldout()
         {
-            var headerGroup = new VisualElement();
-            headerGroup.style.flexDirection = FlexDirection.Column;
-            headerGroup.style.backgroundColor = new Color(0.0f, 0.0f, 0.0f, 0.15f); // Change to your desired color
+            var headerFoldout = new Foldout();
+            headerFoldout.style.flexDirection = FlexDirection.Column;
+            headerFoldout.style.backgroundColor = new Color(0.0f, 0.0f, 0.0f, 0.15f); // Change to your desired color
             
             var fieldName = _property.displayName;
             var functionStruct = fieldInfo.FieldType.GenericTypeArguments.First().Name;
             var functionGeneric = fieldInfo.FieldType.GenericTypeArguments.Last().Name;
             
-            headerGroup.Add(new Label($"{fieldName} ({functionStruct}, {functionGeneric})"));
-            return headerGroup;
+            // Create a foldout element
+
+            headerFoldout.text = $"{fieldName} ({functionStruct}, {functionGeneric})"; // Set the header text
+            headerFoldout.value = true; // Initially open
+            headerFoldout.Add(DrawBody());
+            return headerFoldout;
         }
 
         private VisualElement DrawBody()
         {
             var bodyGroup = new VisualElement();
+            
 
             // Access the _buffer and _functions fields
             var functionsProperty = _property.FindPropertyRelative("functions");
@@ -42,6 +48,26 @@ namespace Anvil
             // for each no null function in the list, draw a custom field for it.
             for (var i = 0; i < functionsProperty.arraySize; i++)
             {
+                var elementGroup = new VisualElement();
+                // change background color to lighter
+                elementGroup.style.backgroundColor = new Color(1.0f, 1.0f, 1.0f, 0.05f); // Change to your desired color
+                elementGroup.style.marginTop = 5;
+                elementGroup.style.marginLeft = -5;
+                elementGroup.style.marginRight = 5;
+                
+                // rund teh corners
+                elementGroup.style.borderTopLeftRadius = 2;
+                elementGroup.style.borderTopRightRadius = 2;
+                elementGroup.style.borderBottomLeftRadius = 2;
+                elementGroup.style.borderBottomRightRadius = 2;
+                    
+                
+                // add padding
+                elementGroup.style.paddingTop = 4;
+                elementGroup.style.paddingLeft = 4;
+                elementGroup.style.paddingRight = 4;
+                elementGroup.style.paddingBottom = 4;
+                
                 var element = functionsProperty.GetArrayElementAtIndex(i);
                 if (element.managedReferenceValue == null) continue;
 
@@ -61,11 +87,13 @@ namespace Anvil
 
 
                 // Make the name label a button itself
-                var label = new Label(element.managedReferenceValue.GetType().Name)
+                var functionName = element.managedReferenceValue.GetType().Name;
+
+                var label = new Label(functionName)
                 {
                     style =
                     {
-                        unityFontStyleAndWeight = FontStyle.Normal,
+                        unityFontStyleAndWeight = FontStyle.Bold,
                         unityTextAlign = TextAnchor.MiddleCenter
                     }
                 };
@@ -117,7 +145,7 @@ namespace Anvil
                 buttonGroup.Add(downButton);
                 buttonGroup.Add(removeButton);
                 horizontalGroup.Add(buttonGroup);
-                bodyGroup.Add(horizontalGroup);
+                elementGroup.Add(horizontalGroup);
 
                 // get the serialized element at index
 
@@ -135,9 +163,10 @@ namespace Anvil
                     var propertyField = new PropertyField(iterator.Copy());
                     // Just had to add this line.
                     propertyField.BindProperty(iterator.Copy());
-                    bodyGroup.Add(propertyField);
+                    elementGroup.Add(propertyField);
                 }
                 serializedElement.serializedObject.ApplyModifiedProperties();
+                bodyGroup.Add(elementGroup);
             }
 
             // Add a button to body group that adds a new type of function
@@ -170,6 +199,7 @@ namespace Anvil
                 menu.ShowAsContext();
             });
             button.text = "Add Function";
+            
             bodyGroup.Add(button);
             return bodyGroup;
         }
@@ -181,8 +211,8 @@ namespace Anvil
             _functionsProperty = property.FindPropertyRelative("_functions");
             
             _container = new VisualElement();
-            _container.Add(DrawHeader());
-            _container.Add(DrawBody());
+            _container.Add(DrawFoldout());
+
 
             // This will bind a change listener to the serialized object, so that whenever it is updated, the UI will also update
             property.serializedObject.ApplyModifiedProperties();
@@ -195,8 +225,7 @@ namespace Anvil
         {
             // Clear the existing UI and redraw it
             _container.Clear();
-            _container.Add(DrawHeader());
-            _container.Add(DrawBody());
+            _container.Add(DrawFoldout());
         }
     }
 }

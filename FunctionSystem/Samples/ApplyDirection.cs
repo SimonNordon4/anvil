@@ -38,14 +38,26 @@ namespace Anvil
             return direction.normalized;
         }
     }
+    
+    [Serializable]
+    public struct MoveTowardsTransform : IWishDirectionFunction
+    {
+        [SerializeField] private Transform targetTransform;
+        public Vector3 Process(Vector3 data)
+        {
+            return default;
+        }
+    }
 
     [Serializable]
     public struct ApplyMoveSpeed : IWishDirectionFunction
     {
         [SerializeField] private int moveSpeed;
+        [SerializeField] private string moveSay;
+
         public Vector3 Process(Vector3 data) => data * moveSpeed;
     }
-
+    
     [Serializable]
     public struct ApplyDeltaTime : IWishDirectionFunction
     {
