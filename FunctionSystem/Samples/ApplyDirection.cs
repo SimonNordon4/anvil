@@ -7,11 +7,11 @@ namespace Anvil
     public class ApplyDirection : MonoBehaviour
     {
         //public ReactiveProperty<Vector3> wishDirection  = new();
-        public FunctionSystem<Vector3,IWishDirectionFunction> functionSystem  = new();
+        public FunctionSystem<Vector3,IWishDirectionFunction> wishDirectionSystem  = new();
 
         private void Update()
         {
-            var direction = functionSystem.Process(Vector3.zero);
+            var direction = wishDirectionSystem.Process(Vector3.zero);
             transform.position += direction;
         }
     }

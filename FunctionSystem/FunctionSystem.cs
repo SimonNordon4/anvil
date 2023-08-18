@@ -10,23 +10,20 @@ namespace Anvil
         private T _buffer;
 
         [SerializeReference]
-        private List<T1> _functions;
-        
-        [SerializeReference]
-        private T1 _function;
+        private List<T1> functions;
 
         public T Process(T data)
         {
             _buffer = data;
-            foreach (var function in _functions)
+            foreach (var function in functions)
                 _buffer = function.Process(_buffer);
             return _buffer;
         }
 
         public void AddFunction(T1 func)
         {
-            _functions ??= new List<T1>();
-            _functions.Add(func);
+            functions ??= new List<T1>();
+            functions.Add(func);
         }
     }
 
