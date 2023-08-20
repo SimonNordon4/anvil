@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,26 +12,23 @@ namespace Anvil
     {
         [SerializeReference]
         private List<T1> functions;
-        private T _buffer;
+
+        private ReactiveProperty<T> _buffer = new();
 
         public void Bind(IReactiveProperty<T> property, Component component)
         {
             foreach (var function in functions)
-                function.Initialize();
+                function.Initialize(_buffer);
 
-            Observable.EveryUpdate().Subscribe(_ =>
-            {
-                _buffer = property.Value;
-                foreach (var function in functions)
-                    _buffer = function.Process(_buffer);
-                property.Value = _buffer;
-            }).AddTo(component);
+            _buffer.BatchFrame(0,FrameCountType.Update)
+                .Select(v => v.Last())
+                .Subscribe(v => property.Value = v)
+                .AddTo(component);
         }
     }
 
     public interface IHandler<T> where T : struct
     {
-        public void Initialize();
-        public T Process(T data);
+        public void Initialize(ReactiveProperty<T> bufferProp);
     }
 }
