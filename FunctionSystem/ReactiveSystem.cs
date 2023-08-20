@@ -41,27 +41,5 @@ namespace Anvil
         public T Process(T data);
     }
     
-    public interface IHealthHandler : IHandler<int>
-    {
-        
-    }
-    
-    [Serializable]
-    public class ButtonToOne : IHealthHandler
-    {
-        [SerializeField]private Button button;
-        private bool _isPressed;
-        
-        public void Initialize(CompositeDisposable system)
-        {
-            button.OnClickAsObservable().Subscribe(_ => _isPressed = true).AddTo(system);
-        }
-
-        public int Process(int data)
-        {
-            if (!_isPressed) return data;
-            _isPressed = false;
-            return 1;
-        }
-    }
+   
 }
