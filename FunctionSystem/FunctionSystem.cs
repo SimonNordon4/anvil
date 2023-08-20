@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Anvil
@@ -10,7 +11,7 @@ namespace Anvil
         private T _buffer;
 
         [SerializeReference]
-        private List<T1> functions;
+        public List<T1> functions;
 
         public T Process(T data)
         {

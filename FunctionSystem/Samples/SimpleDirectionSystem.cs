@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Anvil
 {
-    public class ApplyDirection : MonoBehaviour
+    public class SimpleDirectionSystem : MonoBehaviour
     {
         //public ReactiveProperty<Vector3> wishDirection  = new();
         public FunctionSystem<Vector3,IWishDirectionFunction> wishDirectionSystem  = new();
@@ -39,21 +39,16 @@ namespace Anvil
         }
     }
     
-    [Serializable]
-    public struct MoveTowardsTransform : IWishDirectionFunction
-    {
-        [SerializeField] private Transform targetTransform;
-        public Vector3 Process(Vector3 data)
-        {
-            return default;
-        }
-    }
 
     [Serializable]
     public struct ApplyMoveSpeed : IWishDirectionFunction
     {
         [SerializeField] private int moveSpeed;
-        [SerializeField] private string moveSay;
+    
+        public ApplyMoveSpeed(int moveSpeed = 5)
+        {
+            this.moveSpeed = moveSpeed;
+        }
 
         public Vector3 Process(Vector3 data) => data * moveSpeed;
     }
