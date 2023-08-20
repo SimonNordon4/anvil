@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Anvil
 {
@@ -31,6 +32,44 @@ namespace Anvil
     public interface IFunction<T> where T : struct
     {
         public T Process(T data);
+    }
+    
+    [Serializable]
+    public struct SimpleFunction : IFunction<int>
+    {
+        public int Process(int data)
+        {
+            return data + 1;
+        }
+    }
+
+    [Serializable]
+    public struct PollFunction : IFunction<int>
+    {
+        public bool canAdd;
+        public int Process(int data)
+        {
+            return canAdd ? data + 1 : data;
+        }
+    }
+    
+    [Serializable]
+    public class SetToOne : IFunction<int>
+    {
+        public Button button;
+        public bool isClicked;
+        
+        public SetToOne(Button button)
+        {
+            this.button = button;
+            button.OnClickAsObservable().Subscribe(_ => isClicked = true);
+        }
+        public int Process(int data)
+        {
+            if (!isClicked) return data;
+            isClicked = false;
+            return 1;
+        }
     }
 }
 

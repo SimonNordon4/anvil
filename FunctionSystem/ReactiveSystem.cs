@@ -2,61 +2,66 @@
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Anvil
 {
     [Serializable]
-    public class ReactiveSystem<T,T1> where T1 : IHandler<T> where T : struct
+    public class ReactiveSystem<T,T1> : IDisposable where T1 : IHandler<T> where T : struct
     {
-        private T _buffer;
-        
-        private IReactiveProperty<T> _property;
-
         [SerializeReference]
         private List<T1> functions;
+        private T _buffer;
         
-        private IHandler<T> EndFunction { get; set; }
+        private CompositeDisposable _disposable = new();
 
-        public void Bind(IReactiveProperty<T> property)
+        public void Bind(IReactiveProperty<T> property, Component component)
         {
-            _property = property;
-            var safeCastSystem = this as ReactiveSystem<T, IHandler<T>>;
             foreach (var function in functions)
-                function.Initialize(safeCastSystem);
+                function.Initialize(_disposable);
+
+            Observable.EveryUpdate().Subscribe(_ =>
+            {
+                _buffer = property.Value;
+                foreach (var function in functions)
+                    _buffer = function.Process(_buffer);
+                property.Value = _buffer;
+            }).AddTo(component);
         }
 
-        private void Evaluate()
+        public void Dispose()
         {
-            _buffer = default;
-            foreach (var function in functions)
-                _buffer = function.Process(_buffer);
-            _property.Value = _buffer;
-        }
-
-        public void AddFunction(T1 func)
-        {
-            functions ??= new List<T1>();
-            functions.Add(func);
-        }
-        
-        public void Notify(T1 func)
-        {
-            
+            _disposable.Dispose();
         }
     }
 
     public interface IHandler<T> where T : struct
     {
-        public void Initialize(ReactiveSystem<T,IHandler<T>> system);
+        public void Initialize(CompositeDisposable system);
         public T Process(T data);
     }
     
-    // Class A Frame 1 -> Evaluate
-    // Class B Frame 1 -> Evaluate
-    // This will set the value twice, very bad!
+    public interface IHealthHandler : IHandler<int>
+    {
+        
+    }
     
-    // Instead we somehow need to wait until all classes have called Evaluate, then we can set the value.
-    // However it's unknown if any classes will ever call Evaluate() on that frame.
+    [Serializable]
+    public class ButtonToOne : IHealthHandler
+    {
+        [SerializeField]private Button button;
+        private bool _isPressed;
+        
+        public void Initialize(CompositeDisposable system)
+        {
+            button.OnClickAsObservable().Subscribe(_ => _isPressed = true).AddTo(system);
+        }
 
-
+        public int Process(int data)
+        {
+            if (!_isPressed) return data;
+            _isPressed = false;
+            return 1;
+        }
+    }
 }

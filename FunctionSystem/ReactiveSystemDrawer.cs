@@ -10,8 +10,8 @@ using UnityEngine;
 
 namespace Anvil
 {
-    [CustomPropertyDrawer(typeof(FunctionSystem<,>))]
-    public class FunctionSystemDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(ReactiveSystem<,>))]
+    public class ReactiveSystemDrawer : PropertyDrawer
     {
         private SerializedProperty _property;
         private SerializedProperty _functionsProperty;
