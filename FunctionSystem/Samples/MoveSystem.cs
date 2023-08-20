@@ -30,6 +30,10 @@ namespace Anvil
         {
         }
 
+        public void Initialize()
+        {
+        }
+
         public int Process(int data)
         {
             return healthSystem.health.Value;

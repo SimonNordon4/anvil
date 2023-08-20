@@ -33,6 +33,10 @@ namespace Anvil
             button.OnClickAsObservable().Subscribe(_ => _isPressed = true).AddTo(system);
         }
 
+        public void Initialize()
+        {
+        }
+
         public int Process(int data)
         {
             if (!_isPressed) return data;

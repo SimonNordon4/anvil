@@ -7,18 +7,16 @@ using UnityEngine.UI;
 namespace Anvil
 {
     [Serializable]
-    public class ReactiveSystem<T,T1> : IDisposable where T1 : IHandler<T> where T : struct
+    public class ReactiveSystem<T,T1> where T1 : IHandler<T> where T : struct
     {
         [SerializeReference]
         private List<T1> functions;
         private T _buffer;
-        
-        private CompositeDisposable _disposable = new();
 
         public void Bind(IReactiveProperty<T> property, Component component)
         {
             foreach (var function in functions)
-                function.Initialize(_disposable);
+                function.Initialize();
 
             Observable.EveryUpdate().Subscribe(_ =>
             {
@@ -28,18 +26,11 @@ namespace Anvil
                 property.Value = _buffer;
             }).AddTo(component);
         }
-
-        public void Dispose()
-        {
-            _disposable.Dispose();
-        }
     }
 
     public interface IHandler<T> where T : struct
     {
-        public void Initialize(CompositeDisposable system);
+        public void Initialize();
         public T Process(T data);
     }
-    
-   
 }

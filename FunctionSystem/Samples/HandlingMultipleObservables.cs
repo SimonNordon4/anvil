@@ -32,8 +32,12 @@ namespace Anvil
                     value3.AsObservable(),
                     value4.AsObservable())
                 .BatchFrame(0, FrameCountType.Update)
-                .Subscribe(v => result.Value = v.Last()); 
-                result.Subscribe(v => Debug.Log($"Result: {v}"));
+                .Subscribe(v =>
+                {
+                    Debug.Log($"Received {v.Count} values on frame {Time.frameCount}");
+                    result.Value = v.Last();
+                }); 
+                result.Subscribe(v => Debug.Log($"Result: {v} on frame {Time.frameCount}"));
         }
 
         public void SetRandom()
@@ -59,6 +63,7 @@ namespace Anvil
 
         public void SetTwo()
         {
+            Debug.Log("Setting two values on frame " + Time.frameCount);
             value1.Value = Random.Range(0, 100);
             value3.Value = Random.Range(0, 100);
         }

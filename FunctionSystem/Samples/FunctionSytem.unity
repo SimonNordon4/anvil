@@ -200,7 +200,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 795556836}
-  - component: {fileID: 795556838}
+  - component: {fileID: 795556837}
   m_Layer: 0
   m_Name: Benchmarks
   m_TagString: Untagged
@@ -223,7 +223,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &795556838
+--- !u!114 &795556837
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,10 +232,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 795556835}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43f758a06a70eaa4a99f187132290e4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 79fa1d8a27c45444cbd66304beb365e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  number: 1
+  numberOfObservables: 2
+  firstObservable:
+    value: 0
 --- !u!1 &1125443597
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +431,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1927461858}
   - component: {fileID: 1927461859}
-  - component: {fileID: 1927461860}
   m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
@@ -461,45 +462,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1927461856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 027f02992f4339b4f8a5ecd779ec687d, type: 3}
+  m_Script: {fileID: 11500000, guid: 82082bed6a431474e9090cbf743de543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health:
-    value: 5
-  system:
-    functions:
-    - rid: 1698683249383178243
-  references:
-    version: 2
-    RefIds:
-    - rid: 1698683249383178243
-      type: {class: ButtonToOne, ns: Anvil, asm: Anvil.Samples}
-      data:
-        button: {fileID: 1979691935}
---- !u!114 &1927461860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927461856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eeda47288a4d57649b048aabc0e20055, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed:
-    value: 5
-  system:
-    functions:
-    - rid: 1698683249383178244
-  references:
-    version: 2
-    RefIds:
-    - rid: 1698683249383178244
-      type: {class: MoveSystemHandler, ns: Anvil, asm: Anvil.Samples}
-      data:
-        healthSystem: {fileID: 1927461859}
+  value1:
+    value: 0
+  value2:
+    value: 0
+  value3:
+    value: 0
+  value4:
+    value: 0
+  result:
+    value: 0
 --- !u!1 &1979691933
 GameObject:
   m_ObjectHideFlags: 0
