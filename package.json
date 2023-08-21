@@ -1,5 +1,5 @@
 ﻿{
-    "name": "com.simonnordon.sframework",
+    "name": "com.simonnordon.anvil",
     "version": "1.0.0",
     "displayName": "SFramework is a suite of tools to help you write better unity code",
     "description": "An attempt to modularize classes in Unity into function structs.",
