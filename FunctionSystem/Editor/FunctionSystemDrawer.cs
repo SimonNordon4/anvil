@@ -226,5 +226,10 @@ namespace Anvil.Systems
             _container.Clear();
             _container.Add(DrawFoldout());
         }
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUILayout.LabelField("Hello");
+        }
     }
 }
