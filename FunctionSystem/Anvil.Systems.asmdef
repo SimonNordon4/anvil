@@ -1,11 +1,7 @@
 {
-    "name": "Anvil.Samples",
+    "name": "Anvil.Systems",
     "rootNamespace": "",
-    "references": [
-        "Anvil",
-        "UniRx",
-        "SerializeInterface"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -8,7 +8,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using UnityEngine;
 
-namespace Anvil
+namespace Anvil.Systems
 {
     [CustomPropertyDrawer(typeof(FunctionSystem<,>))]
     public class FunctionSystemDrawer : PropertyDrawer
