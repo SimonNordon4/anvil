@@ -1,7 +1,7 @@
 {
     "name": "Anvil.Systems",
     "rootNamespace": "",
-    "references": [],
+    "references": ["UniRx"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

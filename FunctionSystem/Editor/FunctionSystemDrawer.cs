@@ -229,7 +229,7 @@ namespace Anvil.Systems
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorGUILayout.LabelField("Hello");
+            base.OnGUI(position, property, label);
         }
     }
 }
