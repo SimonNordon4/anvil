@@ -1,7 +1,7 @@
 ﻿{
     "name": "com.simonnordon.anvil",
-    "version": "1.0.0",
-    "displayName": "SFramework is a suite of tools to help you write better unity code",
+    "version": "0.0.1",
+    "displayName": "Anvil",
     "description": "An attempt to modularize classes in Unity into function structs.",
     "unity": "2022.3"
 }
